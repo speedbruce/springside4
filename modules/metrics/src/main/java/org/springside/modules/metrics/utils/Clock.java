@@ -1,3 +1,8 @@
+/*******************************************************************************
+ * Copyright (c) 2005, 2014 springside.github.io
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ *******************************************************************************/
 package org.springside.modules.metrics.utils;
 
 /**
@@ -7,9 +12,9 @@ package org.springside.modules.metrics.utils;
  */
 public interface Clock {
 
-	long getCurrentTime();
-
 	static final Clock DEFAULT = new DefaultClock();
+
+	long getCurrentTime();
 
 	/**
 	 * 默认时间提供者，返回当前的时间，线程安全。
@@ -20,21 +25,20 @@ public interface Clock {
 		public long getCurrentTime() {
 			return System.currentTimeMillis();
 		}
-
 	}
 
 	/**
 	 * 可配置的时间提供者，用于测试.
 	 */
-	public static class MockedClock implements Clock {
+	public static class MockClock implements Clock {
 
 		private long time;
 
-		public MockedClock() {
+		public MockClock() {
 			this(0);
 		}
 
-		public MockedClock(long time) {
+		public MockClock(long time) {
 			this.time = time;
 		}
 
@@ -53,8 +57,15 @@ public interface Clock {
 		/**
 		 * 增加时间戳.
 		 */
-		public void incrementTime(int millis) {
+		public void increaseTime(int millis) {
 			time += millis;
+		}
+
+		/**
+		 * 滚动时间.
+		 */
+		public void decreaseTime(int millis) {
+			time -= millis;
 		}
 	}
 }
